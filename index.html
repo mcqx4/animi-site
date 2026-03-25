@@ -505,6 +505,21 @@ textarea.input-field { resize: vertical; min-height: 100px; }
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 20px;
 }
+@media (max-width: 600px) {
+  .hits-grid {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    gap: 16px;
+    padding-bottom: 12px;
+  }
+  .hits-grid > * {
+    min-width: 260px;
+    scroll-snap-align: start;
+    flex-shrink: 0;
+  }
+}
 .hit-card {
   background: var(--color-bg-surface);
   border: 0.5px solid var(--color-border);
@@ -2155,7 +2170,7 @@ textarea.input-field { resize: vertical; min-height: 100px; }
       <div class="section-center reveal">
         <div class="section-label">Наши продукты</div>
         <h2 class="section-title">Выберите формат, который подходит вашему ребёнку</h2>
-        <div class="gold-divider"></div>
+        <div class="magic-divider reveal"><span class="magic-divider__line"></span><svg class="magic-divider__star" viewBox="0 0 24 24"><path d="M12 2L9.5 9.5 2 12l7.5 2.5L12 22l2.5-7.5L22 12l-7.5-2.5z"/></svg><span class="magic-divider__line"></span></div>
       </div>
       <div class="product-nav-grid" style="margin-top: 48px;">
         <div class="product-nav-card priority reveal reveal-delay-1" onclick="navigateTo('books')">
@@ -2269,7 +2284,7 @@ textarea.input-field { resize: vertical; min-height: 100px; }
       <div class="section-center reveal">
         <div class="section-label">Как это работает</div>
         <h2 class="section-title">Как история помогает ребёнку</h2>
-        <div class="gold-divider"></div>
+        <div class="magic-divider reveal"><span class="magic-divider__line"></span><svg class="magic-divider__star" viewBox="0 0 24 24"><path d="M12 2L9.5 9.5 2 12l7.5 2.5L12 22l2.5-7.5L22 12l-7.5-2.5z"/></svg><span class="magic-divider__line"></span></div>
       </div>
       <div class="steps-grid" style="margin-top: 48px;">
         <div class="step-item reveal reveal-delay-1">
@@ -2306,7 +2321,7 @@ textarea.input-field { resize: vertical; min-height: 100px; }
       <div class="section-center reveal">
         <div class="section-label">Наш подход</div>
         <h2 class="section-title">Почему это больше, чем просто сказка</h2>
-        <div class="gold-divider"></div>
+        <div class="magic-divider reveal"><span class="magic-divider__line"></span><svg class="magic-divider__star" viewBox="0 0 24 24"><path d="M12 2L9.5 9.5 2 12l7.5 2.5L12 22l2.5-7.5L22 12l-7.5-2.5z"/></svg><span class="magic-divider__line"></span></div>
       </div>
       <div class="values-grid" style="margin-top: 48px;">
         <div class="value-card reveal reveal-delay-1">
@@ -2339,7 +2354,7 @@ textarea.input-field { resize: vertical; min-height: 100px; }
       <div class="section-center reveal">
         <div class="section-label">Форматы</div>
         <h2 class="section-title">Выберите формат, который подходит вам</h2>
-        <div class="gold-divider"></div>
+        <div class="magic-divider reveal"><span class="magic-divider__line"></span><svg class="magic-divider__star" viewBox="0 0 24 24"><path d="M12 2L9.5 9.5 2 12l7.5 2.5L12 22l2.5-7.5L22 12l-7.5-2.5z"/></svg><span class="magic-divider__line"></span></div>
       </div>
       <div class="values-grid" style="margin-top: 48px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));">
         <div class="value-card reveal reveal-delay-1" style="display:flex;flex-direction:column;justify-content:space-between;gap:20px;">
@@ -2405,7 +2420,7 @@ textarea.input-field { resize: vertical; min-height: 100px; }
       <div class="section-center reveal">
         <div class="section-label">Вопросы</div>
         <h2 class="section-title">Часто задаваемые вопросы</h2>
-        <div class="gold-divider"></div>
+        <div class="magic-divider reveal"><span class="magic-divider__line"></span><svg class="magic-divider__star" viewBox="0 0 24 24"><path d="M12 2L9.5 9.5 2 12l7.5 2.5L12 22l2.5-7.5L22 12l-7.5-2.5z"/></svg><span class="magic-divider__line"></span></div>
       </div>
       <div class="faq-list" style="margin-top: 48px;">
         <div class="faq-item reveal">
@@ -3039,6 +3054,15 @@ textarea.input-field { resize: vertical; min-height: 100px; }
       <div class="gen-step" data-step="waiting">
         <div class="gen-waiting">
           <div class="gen-orb"></div>
+          <div class="gen-particles">
+            <span class="gen-particles__star"></span>
+            <span class="gen-particles__star"></span>
+            <span class="gen-particles__star"></span>
+            <span class="gen-particles__star"></span>
+            <span class="gen-particles__star"></span>
+            <span class="gen-particles__star"></span>
+            <span class="gen-particles__star"></span>
+          </div>
           <h3>Создаём историю...</h3>
           <p>Волшебство требует немного времени</p>
         </div>
@@ -3164,7 +3188,7 @@ textarea.input-field { resize: vertical; min-height: 100px; }
       <div class="section-center reveal">
         <div class="section-label">Процесс</div>
         <h2 class="section-title">Как создаётся персональная история</h2>
-        <div class="gold-divider"></div>
+        <div class="magic-divider reveal"><span class="magic-divider__line"></span><svg class="magic-divider__star" viewBox="0 0 24 24"><path d="M12 2L9.5 9.5 2 12l7.5 2.5L12 22l2.5-7.5L22 12l-7.5-2.5z"/></svg><span class="magic-divider__line"></span></div>
       </div>
       <div class="steps-grid" style="margin-top: 48px;">
         <div class="step-item reveal reveal-delay-1">
