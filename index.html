@@ -3740,6 +3740,77 @@ function selectGenOption(el) {
   animate();
 })();
 
+/* ── Cursor sparkle trail ── */
+(function() {
+  const sparkles = [];
+  const maxSparkles = 30;
+  let mouseX = -100, mouseY = -100;
+  let isTouch = 'ontouchstart' in window;
+  if (isTouch) return;
+
+  function createSparkle(x, y) {
+    const el = document.createElement('div');
+    el.style.cssText = `
+      position:fixed; pointer-events:none; z-index:9999;
+      width:6px; height:6px; border-radius:50%;
+      background:radial-gradient(circle, #D9B36A 0%, rgba(217,179,106,0) 70%);
+      box-shadow: 0 0 6px 2px rgba(217,179,106,0.4);
+      left:${x - 3}px; top:${y - 3}px;
+      transition: none;
+    `;
+    document.body.appendChild(el);
+
+    const sparkle = {
+      el,
+      x, y,
+      size: Math.random() * 4 + 3,
+      life: 1,
+      decay: 0.02 + Math.random() * 0.02,
+      vx: (Math.random() - 0.5) * 1.5,
+      vy: (Math.random() - 0.5) * 1.5 + 0.5,
+      rotation: Math.random() * 360
+    };
+    sparkles.push(sparkle);
+    if (sparkles.length > maxSparkles) {
+      const old = sparkles.shift();
+      old.el.remove();
+    }
+  }
+
+  let frameCount = 0;
+  function updateSparkles() {
+    for (let i = sparkles.length - 1; i >= 0; i--) {
+      const s = sparkles[i];
+      s.life -= s.decay;
+      s.x += s.vx;
+      s.y += s.vy;
+      s.vy += 0.03;
+      s.rotation += 2;
+      const scale = s.life * (s.size / 6);
+      if (s.life <= 0) {
+        s.el.remove();
+        sparkles.splice(i, 1);
+      } else {
+        s.el.style.transform = `translate(${s.x - parseFloat(s.el.style.left) - 3}px, ${s.y - parseFloat(s.el.style.top) - 3}px) scale(${scale}) rotate(${s.rotation}deg)`;
+        s.el.style.opacity = s.life;
+      }
+    }
+    requestAnimationFrame(updateSparkles);
+  }
+  updateSparkles();
+
+  let lastSpawn = 0;
+  document.addEventListener('mousemove', function(e) {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    const now = Date.now();
+    if (now - lastSpawn > 40) {
+      createSparkle(mouseX + (Math.random() - 0.5) * 8, mouseY + (Math.random() - 0.5) * 8);
+      lastSpawn = now;
+    }
+  });
+})();
+
 </script>
 </body>
 </html>
