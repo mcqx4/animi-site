@@ -2543,20 +2543,26 @@ textarea.input-field { resize: vertical; min-height: 100px; }
       <button class="filter-chip filter-chip-quick">Адаптация</button>
     </div>
     <!-- Grouped filters -->
-    <div class="filter-bar reveal" style="row-gap: 10px;">
-      <span style="font-size: 12px; color: var(--color-text-dim); align-self: center; white-space: nowrap;">Возраст:</span>
-      <button class="filter-chip active">3–5 лет</button>
-      <button class="filter-chip">5–7 лет</button>
-      <button class="filter-chip">7–10 лет</button>
-      <span style="font-size: 12px; color: var(--color-text-dim); align-self: center; white-space: nowrap; margin-left: 8px;">Пол:</span>
-      <button class="filter-chip">Для мальчиков</button>
-      <button class="filter-chip">Для девочек</button>
-      <span style="font-size: 12px; color: var(--color-text-dim); align-self: center; white-space: nowrap; margin-left: 8px;">Тема:</span>
-      <button class="filter-chip">Страхи</button>
-      <button class="filter-chip">Тревожность</button>
-      <button class="filter-chip">Адаптация</button>
-      <button class="filter-chip">Агрессия</button>
-      <button class="filter-chip">Разлука</button>
+    <div class="filter-bar reveal" style="row-gap: 10px; flex-direction: column; gap: 10px;">
+      <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+        <span style="font-size: 12px; color: var(--color-text-dim); white-space: nowrap; min-width: 52px;">Возраст:</span>
+        <button class="filter-chip active">3–5 лет</button>
+        <button class="filter-chip">5–7 лет</button>
+        <button class="filter-chip">7–10 лет</button>
+      </div>
+      <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+        <span style="font-size: 12px; color: var(--color-text-dim); white-space: nowrap; min-width: 52px;">Пол:</span>
+        <button class="filter-chip">Для мальчиков</button>
+        <button class="filter-chip">Для девочек</button>
+      </div>
+      <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+        <span style="font-size: 12px; color: var(--color-text-dim); white-space: nowrap; min-width: 52px;">Тема:</span>
+        <button class="filter-chip">Страхи</button>
+        <button class="filter-chip">Тревожность</button>
+        <button class="filter-chip">Адаптация</button>
+        <button class="filter-chip">Агрессия</button>
+        <button class="filter-chip">Разлука</button>
+      </div>
     </div>
     <div class="catalog-grid catalog-grid--books">
       <div class="hit-card reveal reveal-delay-1" onclick="navigateTo('book-detail')">
