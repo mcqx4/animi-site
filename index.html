@@ -948,6 +948,28 @@ textarea.input-field { resize: vertical; min-height: 100px; }
   margin-bottom: 6px;
   letter-spacing: 0.04em;
 }
+.file-upload-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 20px;
+  border: 1.5px dashed var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-bg-input);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  text-align: center;
+}
+.file-upload-area:hover {
+  border-color: var(--color-accent-gold);
+  background: rgba(217, 179, 106, 0.05);
+}
+.file-upload-text {
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
 .gender-toggle {
   display: flex; gap: 8px;
 }
@@ -2710,7 +2732,12 @@ textarea.input-field { resize: vertical; min-height: 100px; }
           </div>
           <div class="form-group">
             <label>Фото ребёнка (для иллюстраций)</label>
-            <input type="file" class="input-field" accept="image/*" style="padding: 10px 16px;">
+            <label class="file-upload-area" onclick="this.querySelector('input').click()">
+              <input type="file" accept="image/*" style="display:none;" onchange="this.parentElement.querySelector('.file-upload-text').textContent = this.files[0] ? this.files[0].name : 'Нажмите или перетащите файл'">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#D9B36A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:4px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              <span class="file-upload-text">Нажмите или перетащите файл</span>
+              <span style="font-size:11px; color:var(--color-text-dim);">JPG, PNG до 10 МБ</span>
+            </label>
           </div>
         </div>
 
