@@ -3740,35 +3740,50 @@ function selectGenOption(el) {
   animate();
 })();
 
-/* ── Cursor sparkle trail ── */
+/* ── Magic wand cursor + sparkle trail ── */
 (function() {
   const sparkles = [];
-  const maxSparkles = 30;
+  const maxSparkles = 60;
   let mouseX = -100, mouseY = -100;
   let isTouch = 'ontouchstart' in window;
   if (isTouch) return;
 
-  function createSparkle(x, y) {
+  /* Custom wand cursor */
+  const wandSVG = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%23D9B36A'/%3E%3Cstop offset='100%25' stop-color='%23B8872E'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cline x1='6' y1='26' x2='22' y2='10' stroke='url(%23g)' stroke-width='2.5' stroke-linecap='round'/%3E%3Ccircle cx='23' cy='9' r='2' fill='%23D9B36A'/%3E%3Cline x1='23' y1='3' x2='23' y2='6' stroke='%23D9B36A' stroke-width='1' stroke-linecap='round' opacity='0.8'/%3E%3Cline x1='28' y1='9' x2='26' y2='9' stroke='%23D9B36A' stroke-width='1' stroke-linecap='round' opacity='0.8'/%3E%3Cline x1='27' y1='5' x2='25.5' y2='6.5' stroke='%23D9B36A' stroke-width='1' stroke-linecap='round' opacity='0.6'/%3E%3C/svg%3E") 4 28, auto`;
+  document.body.style.cursor = wandSVG;
+  document.querySelectorAll('a, button, .btn-primary, .btn-secondary, [onclick]').forEach(el => {
+    el.style.cursor = wandSVG;
+  });
+
+  /* Star shapes for variety */
+  function starPath(size) {
+    const s = size;
+    return `polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)`;
+  }
+
+  function createSparkle(x, y, burst) {
     const el = document.createElement('div');
+    const isStar = Math.random() > 0.5;
+    const sz = burst ? Math.random() * 8 + 4 : Math.random() * 5 + 3;
     el.style.cssText = `
       position:fixed; pointer-events:none; z-index:9999;
-      width:6px; height:6px; border-radius:50%;
-      background:radial-gradient(circle, #D9B36A 0%, rgba(217,179,106,0) 70%);
-      box-shadow: 0 0 6px 2px rgba(217,179,106,0.4);
-      left:${x - 3}px; top:${y - 3}px;
-      transition: none;
+      width:${sz}px; height:${sz}px;
+      ${isStar ? 'clip-path:' + starPath(sz) + '; background:#D9B36A;' : 'border-radius:50%; background:radial-gradient(circle, #D9B36A 0%, rgba(217,179,106,0) 70%);'}
+      box-shadow: 0 0 ${sz}px ${sz/2}px rgba(217,179,106,0.4);
+      left:${x - sz/2}px; top:${y - sz/2}px;
     `;
     document.body.appendChild(el);
 
+    const angle = burst ? Math.random() * Math.PI * 2 : (Math.random() - 0.5) * Math.PI;
+    const speed = burst ? Math.random() * 4 + 2 : Math.random() * 1 + 0.3;
     const sparkle = {
-      el,
-      x, y,
-      size: Math.random() * 4 + 3,
+      el, x, y, sz,
       life: 1,
-      decay: 0.02 + Math.random() * 0.02,
-      vx: (Math.random() - 0.5) * 1.5,
-      vy: (Math.random() - 0.5) * 1.5 + 0.5,
-      rotation: Math.random() * 360
+      decay: burst ? 0.015 + Math.random() * 0.015 : 0.018 + Math.random() * 0.018,
+      vx: Math.cos(angle) * speed,
+      vy: Math.sin(angle) * speed,
+      rotation: Math.random() * 360,
+      spin: (Math.random() - 0.5) * 8
     };
     sparkles.push(sparkle);
     if (sparkles.length > maxSparkles) {
@@ -3777,36 +3792,57 @@ function selectGenOption(el) {
     }
   }
 
-  let frameCount = 0;
   function updateSparkles() {
     for (let i = sparkles.length - 1; i >= 0; i--) {
       const s = sparkles[i];
       s.life -= s.decay;
       s.x += s.vx;
       s.y += s.vy;
-      s.vy += 0.03;
-      s.rotation += 2;
-      const scale = s.life * (s.size / 6);
+      s.vy += 0.04;
+      s.vx *= 0.99;
+      s.rotation += s.spin;
+      const scale = s.life * (s.sz / 6);
       if (s.life <= 0) {
         s.el.remove();
         sparkles.splice(i, 1);
       } else {
-        s.el.style.transform = `translate(${s.x - parseFloat(s.el.style.left) - 3}px, ${s.y - parseFloat(s.el.style.top) - 3}px) scale(${scale}) rotate(${s.rotation}deg)`;
-        s.el.style.opacity = s.life;
+        s.el.style.transform = `translate(${s.x - parseFloat(s.el.style.left) - s.sz/2}px, ${s.y - parseFloat(s.el.style.top) - s.sz/2}px) scale(${scale}) rotate(${s.rotation}deg)`;
+        s.el.style.opacity = s.life * s.life;
       }
     }
     requestAnimationFrame(updateSparkles);
   }
   updateSparkles();
 
+  /* Trail on mouse move — more frequent */
   let lastSpawn = 0;
   document.addEventListener('mousemove', function(e) {
     mouseX = e.clientX;
     mouseY = e.clientY;
     const now = Date.now();
-    if (now - lastSpawn > 40) {
-      createSparkle(mouseX + (Math.random() - 0.5) * 8, mouseY + (Math.random() - 0.5) * 8);
+    if (now - lastSpawn > 20) {
+      createSparkle(mouseX + (Math.random() - 0.5) * 12, mouseY + (Math.random() - 0.5) * 12, false);
+      if (Math.random() > 0.5) createSparkle(mouseX + (Math.random() - 0.5) * 16, mouseY + (Math.random() - 0.5) * 16, false);
       lastSpawn = now;
+    }
+  });
+
+  /* Burst on click */
+  document.addEventListener('click', function(e) {
+    for (let i = 0; i < 12; i++) {
+      createSparkle(e.clientX + (Math.random() - 0.5) * 10, e.clientY + (Math.random() - 0.5) * 10, true);
+    }
+  });
+
+  /* Sparkles on scroll */
+  let lastScrollSpawn = 0;
+  window.addEventListener('scroll', function() {
+    if (mouseX < 0) return;
+    const now = Date.now();
+    if (now - lastScrollSpawn > 50) {
+      createSparkle(mouseX + (Math.random() - 0.5) * 20, mouseY + (Math.random() - 0.5) * 20, false);
+      createSparkle(mouseX + (Math.random() - 0.5) * 24, mouseY + (Math.random() - 0.5) * 24, false);
+      lastScrollSpawn = now;
     }
   });
 })();
