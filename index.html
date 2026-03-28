@@ -2159,37 +2159,14 @@ textarea.input-field { resize: vertical; min-height: 100px; }
   <!-- HERO (split-banner) -->
   <section class="hero hero-split">
     <div class="hero-visual">
-      <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:32px;">
-        <!-- Book visual -->
-        <svg viewBox="0 0 280 380" width="320" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="filter:drop-shadow(0 16px 48px rgba(0,0,0,0.4));">
-          <rect x="20" y="10" width="240" height="340" rx="16" fill="#143F42" stroke="#1A5558" stroke-width="0.5"/>
-          <rect x="30" y="20" width="220" height="320" rx="12" fill="#0E3335"/>
-          <rect x="30" y="20" width="6" height="320" rx="3" fill="#D9B36A" opacity="0.6"/>
-          <!-- Cover illustration area -->
-          <rect x="50" y="40" width="180" height="180" rx="10" fill="#163E40" opacity="0.8"/>
-          <circle cx="140" cy="110" r="50" fill="#167A84" opacity="0.3"/>
-          <circle cx="140" cy="110" r="30" fill="#1A5558" opacity="0.4"/>
-          <path d="M120 110 C120 96 140 82 160 110 C140 138 120 124 120 110Z" fill="#D9B36A" opacity="0.5"/>
-          <!-- Decorative stars -->
-          <circle cx="90" cy="70" r="2" fill="#D9B36A" opacity="0.3"/>
-          <circle cx="190" cy="80" r="1.5" fill="#D9B36A" opacity="0.25"/>
-          <circle cx="170" cy="55" r="1" fill="#D9B36A" opacity="0.2"/>
-          <circle cx="100" cy="160" r="1.5" fill="#D9B36A" opacity="0.2"/>
-          <!-- Title lines -->
-          <rect x="65" y="240" width="150" height="8" rx="4" fill="#1A4F50" opacity="0.8"/>
-          <rect x="80" y="260" width="120" height="6" rx="3" fill="#1A4F50" opacity="0.6"/>
-          <!-- Subtitle lines -->
-          <rect x="65" y="285" width="130" height="4" rx="2" fill="#1A4F50" opacity="0.4"/>
-          <rect x="75" y="297" width="110" height="4" rx="2" fill="#1A4F50" opacity="0.3"/>
-          <rect x="85" y="309" width="90" height="4" rx="2" fill="#1A4F50" opacity="0.25"/>
-        </svg>
-        <!-- Slider dots -->
-        <div style="display:flex;gap:10px;align-items:center;">
-          <span style="width:8px;height:8px;border-radius:50%;background:var(--color-accent-gold);opacity:0.8;"></span>
-          <span style="width:6px;height:6px;border-radius:50%;background:var(--color-border);opacity:0.5;"></span>
-          <span style="width:6px;height:6px;border-radius:50%;background:var(--color-border);opacity:0.5;"></span>
-        </div>
-      </div>
+      <video
+        id="heroBookVideo"
+        src="Magical_book_opens,_202603282027.mp4"
+        muted
+        playsinline
+        preload="auto"
+        style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;"
+      ></video>
     </div>
     <div class="hero-text">
       <div class="hero-content">
@@ -3886,6 +3863,39 @@ function selectGenOption(el) {
       lastScrollSpawn = now;
     }
   });
+})();
+
+/* ── Scroll-driven book video ── */
+(function() {
+  const video = document.getElementById('heroBookVideo');
+  if (!video) return;
+
+  let ready = false;
+  let duration = 0;
+
+  video.addEventListener('loadedmetadata', function() {
+    duration = video.duration;
+    ready = true;
+    video.currentTime = 0;
+  });
+
+  function updateVideoOnScroll() {
+    if (!ready) return;
+    const hero = document.querySelector('.hero-split');
+    if (!hero) return;
+
+    const rect = hero.getBoundingClientRect();
+    const heroH = hero.offsetHeight;
+    // progress 0 → 1 as hero scrolls out of view
+    const scrolled = -rect.top;
+    const progress = Math.min(Math.max(scrolled / heroH, 0), 1);
+
+    video.currentTime = progress * duration;
+  }
+
+  window.addEventListener('scroll', updateVideoOnScroll, { passive: true });
+  // Also update on page load in case already scrolled
+  updateVideoOnScroll();
 })();
 
 </script>
