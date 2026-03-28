@@ -2169,14 +2169,7 @@ textarea.input-field { resize: vertical; min-height: 100px; }
   <div class="hero-split-wrapper" id="heroScrollZone">
   <section class="hero hero-split">
     <div class="hero-visual">
-      <video
-        id="heroBookVideo"
-        src="Magical_book_opens,_202603282027.mp4"
-        muted
-        playsinline
-        preload="auto"
-        style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;"
-      ></video>
+      <canvas id="heroBookCanvas" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;"></canvas>
     </div>
     <div class="hero-text">
       <div class="hero-content">
@@ -3876,23 +3869,53 @@ function selectGenOption(el) {
   });
 })();
 
-/* ── Scroll-driven book video (smooth) ── */
+/* ── Scroll-driven book video (canvas frames) ── */
 (function() {
-  const video = document.getElementById('heroBookVideo');
-  const zone  = document.getElementById('heroScrollZone');
-  if (!video || !zone) return;
+  const canvas = document.getElementById('heroBookCanvas');
+  const zone   = document.getElementById('heroScrollZone');
+  if (!canvas || !zone) return;
 
+  const ctx = canvas.getContext('2d');
+  const frames = [];
   let ready = false;
-  let duration = 0;
-  let targetTime = 0;
-  let currentTime = 0;
-  const LERP = 0.08;        // smoothing factor — lower = smoother
+  let currentIdx = -1;
 
-  video.addEventListener('loadedmetadata', function() {
-    duration = video.duration;
+  // Extract frames from video into ImageBitmap array
+  const video = document.createElement('video');
+  video.muted = true;
+  video.playsInline = true;
+  video.preload = 'auto';
+  video.src = 'Magical_book_opens,_202603282027.mp4';
+
+  video.addEventListener('loadeddata', async function() {
+    const total = Math.ceil(video.duration * 30); // ~30 fps
+    canvas.width  = video.videoWidth;
+    canvas.height = video.videoHeight;
+
+    for (let i = 0; i < total; i++) {
+      video.currentTime = (i / (total - 1)) * video.duration;
+      await new Promise(r => video.addEventListener('seeked', r, { once: true }));
+      const bmp = await createImageBitmap(video);
+      frames.push(bmp);
+    }
+
     ready = true;
-    video.currentTime = 0;
+    drawFrame(0);
+    onScroll();        // draw correct frame if already scrolled
+    video.src = '';    // free video memory
+    video.load();
   });
+
+  function drawFrame(idx) {
+    if (idx === currentIdx || !frames[idx]) return;
+    currentIdx = idx;
+    ctx.drawImage(frames[idx], 0, 0);
+  }
+
+  // Smooth scroll → frame index via lerp
+  let targetIdx = 0;
+  let smoothIdx = 0;
+  const LERP = 0.1;
 
   function onScroll() {
     if (!ready) return;
@@ -3900,22 +3923,23 @@ function selectGenOption(el) {
     const scrollable = zone.offsetHeight - window.innerHeight;
     const scrolled = -rect.top;
     const progress = Math.min(Math.max(scrolled / scrollable, 0), 1);
-    targetTime = progress * duration;
+    targetIdx = progress * (frames.length - 1);
   }
 
   function tick() {
     if (ready) {
-      const diff = targetTime - currentTime;
-      if (Math.abs(diff) > 0.01) {
-        currentTime += diff * LERP;
-        video.currentTime = currentTime;
+      const diff = targetIdx - smoothIdx;
+      if (Math.abs(diff) > 0.3) {
+        smoothIdx += diff * LERP;
+      } else {
+        smoothIdx = targetIdx;
       }
+      drawFrame(Math.round(smoothIdx));
     }
     requestAnimationFrame(tick);
   }
 
   window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
   requestAnimationFrame(tick);
 })();
 
