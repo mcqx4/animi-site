@@ -1632,7 +1632,7 @@ textarea.input-field { resize: vertical; min-height: 100px; }
   display: none;
 }
 .hero-visual {
-  flex: 1;
+  flex: 1.4;
   background: linear-gradient(
     135deg,
     #0D3A3C 0%,
@@ -3919,13 +3919,13 @@ function selectGenOption(el) {
     video.load();
   });
 
-  // Draw with "object-fit: contain" logic — no cropping
+  // Draw with "object-fit: cover" logic
   function drawFrame(idx) {
     if (idx === currentIdx || !frames[idx]) return;
     currentIdx = idx;
 
     const cw = canvas.width, ch = canvas.height;
-    const scale = Math.min(cw / videoW, ch / videoH);
+    const scale = Math.max(cw / videoW, ch / videoH);
     const dw = videoW * scale, dh = videoH * scale;
     const dx = (cw - dw) / 2, dy = (ch - dh) / 2;
 
