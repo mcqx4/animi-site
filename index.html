@@ -1612,13 +1612,18 @@ textarea.input-field { resize: vertical; min-height: 100px; }
 }
 
 /* ── 4. HERO SPLIT LAYOUT ── */
+.hero-split-wrapper {
+  height: 250vh;          /* extra scroll room for the video */
+  position: relative;
+}
 .hero-split {
   min-height: 100vh;
   display: flex;
   align-items: stretch;
   padding-top: 60px;
   padding-bottom: 0;
-  position: relative;
+  position: sticky;
+  top: 0;
   text-align: left;
   justify-content: stretch;
 }
@@ -1713,8 +1718,12 @@ textarea.input-field { resize: vertical; min-height: 100px; }
   padding: 4px 10px;
 }
 @media (max-width: 768px) {
+  .hero-split-wrapper {
+    height: auto;
+  }
   .hero-split {
     flex-direction: column;
+    position: relative;
   }
   .hero-visual {
     min-height: 260px;
@@ -2157,6 +2166,7 @@ textarea.input-field { resize: vertical; min-height: 100px; }
 <main class="page active" id="page-home">
 
   <!-- HERO (split-banner) -->
+  <div class="hero-split-wrapper" id="heroScrollZone">
   <section class="hero hero-split">
     <div class="hero-visual">
       <video
@@ -2192,6 +2202,7 @@ textarea.input-field { resize: vertical; min-height: 100px; }
       </div>
     </div>
   </section>
+  </div>
 
   <!-- PRODUCT NAVIGATION -->
   <section class="section">
@@ -3865,13 +3876,17 @@ function selectGenOption(el) {
   });
 })();
 
-/* ── Scroll-driven book video ── */
+/* ── Scroll-driven book video (smooth) ── */
 (function() {
   const video = document.getElementById('heroBookVideo');
-  if (!video) return;
+  const zone  = document.getElementById('heroScrollZone');
+  if (!video || !zone) return;
 
   let ready = false;
   let duration = 0;
+  let targetTime = 0;
+  let currentTime = 0;
+  const LERP = 0.08;        // smoothing factor — lower = smoother
 
   video.addEventListener('loadedmetadata', function() {
     duration = video.duration;
@@ -3879,23 +3894,29 @@ function selectGenOption(el) {
     video.currentTime = 0;
   });
 
-  function updateVideoOnScroll() {
+  function onScroll() {
     if (!ready) return;
-    const hero = document.querySelector('.hero-split');
-    if (!hero) return;
-
-    const rect = hero.getBoundingClientRect();
-    const heroH = hero.offsetHeight;
-    // progress 0 → 1 as hero scrolls out of view
+    const rect = zone.getBoundingClientRect();
+    const scrollable = zone.offsetHeight - window.innerHeight;
     const scrolled = -rect.top;
-    const progress = Math.min(Math.max(scrolled / heroH, 0), 1);
-
-    video.currentTime = progress * duration;
+    const progress = Math.min(Math.max(scrolled / scrollable, 0), 1);
+    targetTime = progress * duration;
   }
 
-  window.addEventListener('scroll', updateVideoOnScroll, { passive: true });
-  // Also update on page load in case already scrolled
-  updateVideoOnScroll();
+  function tick() {
+    if (ready) {
+      const diff = targetTime - currentTime;
+      if (Math.abs(diff) > 0.01) {
+        currentTime += diff * LERP;
+        video.currentTime = currentTime;
+      }
+    }
+    requestAnimationFrame(tick);
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+  requestAnimationFrame(tick);
 })();
 
 </script>
