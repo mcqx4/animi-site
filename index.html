@@ -3897,23 +3897,38 @@ function selectGenOption(el) {
   video.muted = true;
   video.playsInline = true;
   video.preload = 'auto';
+  video.crossOrigin = 'anonymous';
   video.src = 'Magical_book_opens,_202603282027.mp4';
 
-  video.addEventListener('loadeddata', async function() {
+  video.addEventListener('loadedmetadata', function() {
     videoW = video.videoWidth;
     videoH = video.videoHeight;
     resizeCanvas();
+  });
 
-    const total = Math.ceil(video.duration * 30); // ~30 fps
-    for (let i = 0; i < total; i++) {
-      video.currentTime = (i / (total - 1)) * video.duration;
-      await new Promise(r => video.addEventListener('seeked', r, { once: true }));
-      const bmp = await createImageBitmap(video);
-      frames.push(bmp);
+  video.addEventListener('loadeddata', async function() {
+    if (!videoW) {
+      videoW = video.videoWidth;
+      videoH = video.videoHeight;
+      resizeCanvas();
     }
 
+    // Show first frame immediately
+    video.currentTime = 0;
+    await new Promise(r => video.addEventListener('seeked', r, { once: true }));
+    const first = await createImageBitmap(video);
+    frames.push(first);
     ready = true;
     drawFrame(0);
+
+    // Extract remaining frames in background (~60 total — fast enough, smooth enough)
+    const total = 60;
+    for (let i = 1; i < total; i++) {
+      video.currentTime = (i / (total - 1)) * video.duration;
+      await new Promise(r => video.addEventListener('seeked', r, { once: true }));
+      frames.push(await createImageBitmap(video));
+    }
+
     onScroll();
     video.src = '';
     video.load();
