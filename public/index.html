@@ -2739,15 +2739,15 @@ textarea.input-field { resize: vertical; min-height: 100px; }
         </div>
         <p class="detail-desc reveal">Маленький лис боялся темноты и никогда не выходил из норы после заката. Но однажды он увидел далёкий золотой огонёк в глубине леса и решился на путешествие, которое изменило всё. История помогает ребёнку мягко прожить страх темноты, найти внутреннюю опору и понять, что свет всегда живёт внутри.</p>
 
-        <div class="personalization-block reveal">
+        <div class="personalization-block reveal" id="bookPersonalization">
           <h3>Персонализация</h3>
           <div class="form-group">
             <label>Имя ребёнка</label>
-            <input type="text" class="input-field" placeholder="Как зовут вашего ребёнка?">
+            <input type="text" class="input-field" id="bookChildName" placeholder="Как зовут вашего ребёнка?">
           </div>
           <div class="form-group">
             <label>Пол ребёнка</label>
-            <div class="gender-toggle">
+            <div class="gender-toggle" id="bookGenderToggle">
               <button class="active" onclick="this.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('active')); this.classList.add('active');">Мальчик</button>
               <button onclick="this.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('active')); this.classList.add('active');">Девочка</button>
             </div>
@@ -2767,13 +2767,13 @@ textarea.input-field { resize: vertical; min-height: 100px; }
     </div>
 
     <!-- Full-width blocks below the 2-column layout -->
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 32px;">
+    <div id="bookFormatOptions" style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 32px;">
       <div class="section-label reveal" style="grid-column: 1 / -1;">Выберите формат</div>
-      <div class="format-option active reveal" onclick="this.parentElement.querySelectorAll('.format-option').forEach(o=>o.classList.remove('active')); this.classList.add('active');">
+      <div class="format-option active reveal" data-pages="24" data-price="4900" onclick="this.parentElement.querySelectorAll('.format-option').forEach(o=>o.classList.remove('active')); this.classList.add('active');">
         <span class="format-pages">24 стр.</span>
         <span class="format-price">4 900 ₽</span>
       </div>
-      <div class="format-option reveal" onclick="this.parentElement.querySelectorAll('.format-option').forEach(o=>o.classList.remove('active')); this.classList.add('active');">
+      <div class="format-option reveal" data-pages="36" data-price="6900" onclick="this.parentElement.querySelectorAll('.format-option').forEach(o=>o.classList.remove('active')); this.classList.add('active');">
         <span class="format-pages">36 стр.</span>
         <span class="format-price">6 900 ₽</span>
       </div>
@@ -2804,7 +2804,7 @@ textarea.input-field { resize: vertical; min-height: 100px; }
       </ul>
     </div>
 
-    <button class="btn-primary reveal" style="width: 100%; justify-content: center; padding: 16px; margin-bottom: 20px;">Заказать книгу</button>
+    <button class="btn-primary reveal" id="orderBookBtn" style="width: 100%; justify-content: center; padding: 16px; margin-bottom: 20px;" onclick="orderBook()">Заказать книгу</button>
 
     <!-- Почему это больше, чем просто сказка -->
     <div class="reveal" style="margin-top: 12px; margin-bottom: 20px; padding: 24px; border: 1px solid var(--color-border); border-radius: var(--radius-lg);">
@@ -3039,15 +3039,15 @@ textarea.input-field { resize: vertical; min-height: 100px; }
         </div>
         <p class="detail-desc reveal">Маленький совёнок переезжает в новый лес и чувствует себя чужим среди незнакомых деревьев и зверей. Но постепенно, шаг за шагом, он находит друзей, узнаёт тайные тропы и понимает: новое место может стать родным, если дать себе время. История помогает ребёнку мягко прожить период адаптации — к садику, школе или новому окружению.</p>
 
-        <div class="personalization-block reveal">
+        <div class="personalization-block reveal" id="cartoonPersonalization">
           <h3>Персонализация</h3>
           <div class="form-group">
             <label>Имя ребёнка</label>
-            <input type="text" class="input-field" placeholder="Как зовут вашего ребёнка?">
+            <input type="text" class="input-field" id="cartoonChildName" placeholder="Как зовут вашего ребёнка?">
           </div>
           <div class="form-group">
             <label>Пол ребёнка</label>
-            <div class="gender-toggle">
+            <div class="gender-toggle" id="cartoonGenderToggle">
               <button class="active" onclick="this.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('active')); this.classList.add('active');">Мальчик</button>
               <button onclick="this.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('active')); this.classList.add('active');">Девочка</button>
             </div>
@@ -3067,7 +3067,7 @@ textarea.input-field { resize: vertical; min-height: 100px; }
           <span style="font-size: 12px; color: var(--color-accent-gold); font-weight: 500; letter-spacing: 0.03em;">Имя ребёнка встроено в сюжет</span>
         </div>
 
-        <button class="btn-primary reveal" style="width: 100%; justify-content: center; padding: 16px; margin-top: 4px;">Заказать мультфильм</button>
+        <button class="btn-primary reveal" id="orderCartoonBtn" style="width: 100%; justify-content: center; padding: 16px; margin-top: 4px;" onclick="orderCartoon()">Заказать мультфильм</button>
 
         <!-- Почему это больше, чем просто мультфильм -->
         <div class="reveal" style="margin-top: 24px; padding: 24px; border: 1px solid var(--color-border); border-radius: var(--radius-lg);">
@@ -3128,45 +3128,6 @@ textarea.input-field { resize: vertical; min-height: 100px; }
       </div>
     </section>
   </div>
-  <footer class="site-footer">
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-brand">
-          <div class="logo">ANIM<span class="logo-i">I</span></div>
-          <p style="margin-top:12px;">Оживляем сказки. Бережём душу.<br>Художественная студия терапевтических историй для детей.</p>
-        </div>
-        <div class="footer-col">
-          <h4>Продукты</h4>
-          <a href="#" onclick="navigateTo('books'); return false;">Книги</a>
-          <a href="#" onclick="navigateTo('cartoons'); return false;">Мультфильмы</a>
-          <a href="#" onclick="navigateTo('generator'); return false;">Генератор сказок</a>
-          <a href="#" onclick="navigateTo('personal'); return false;">Персональная история</a>
-        </div>
-        <div class="footer-col">
-          <h4>Информация</h4>
-          <a href="#" onclick="navigateTo('about'); return false;">О нас</a>
-          <a href="#" onclick="navigateTo('about'); return false;">О методе</a>
-          <a href="#" onclick="navigateTo('contacts'); return false;">Контакты</a>
-          <a href="#" onclick="navigateTo('privacy'); return false;">Политика конфиденциальности</a>
-          <a href="#" onclick="navigateTo('offer'); return false;">Оферта</a>
-        </div>
-        <div class="footer-col">
-          <h4>Контакты</h4>
-          <a href="mailto:hello@animistories.com">hello@animistories.com</a>
-          <a href="#">Telegram: @animi_stories</a>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <span>© 2026 Animi Stories. Все права защищены.</span>
-        <div class="footer-socials">
-          <a href="#" title="Instagram @alyona_frost">IG</a>
-          <a href="#" title="Telegram: Теория расстроенных струн">TG</a>
-          <a href="#" title="YouTube: Alyona Frost">YT</a>
-          <a href="#" title="TikTok">TT</a>
-        </div>
-      </div>
-    </div>
-  </footer>
 </main>
 
 <!-- ═══════════════════════════════
@@ -3197,7 +3158,7 @@ textarea.input-field { resize: vertical; min-height: 100px; }
         <div class="generator-step-label">Шаг 3 из 7</div>
         <h2>Сколько лет ребёнку?</h2>
         <div class="form-group">
-          <select class="input-field">
+          <select class="input-field" id="genAge">
             <option value="">Выберите возраст</option>
             <option>3 года</option><option>4 года</option><option>5 лет</option>
             <option>6 лет</option><option>7 лет</option><option>8 лет</option>
@@ -3218,7 +3179,7 @@ textarea.input-field { resize: vertical; min-height: 100px; }
           <div class="gen-option" onclick="selectGenOption(this)">Ревность к брату/сестре</div>
         </div>
         <div class="form-group" style="margin-top: 12px;">
-          <input type="text" class="input-field" placeholder="Или опишите своё...">
+          <input type="text" class="input-field" id="genCustomProblem" placeholder="Или опишите своё...">
         </div>
       </div>
       <!-- Step 5 -->
@@ -3226,7 +3187,7 @@ textarea.input-field { resize: vertical; min-height: 100px; }
         <div class="generator-step-label">Шаг 5 из 7</div>
         <h2>Любимый персонаж или животное?</h2>
         <div class="form-group">
-          <input type="text" class="input-field" placeholder="Лис, кот, дракон, единорог... (необязательно)">
+          <input type="text" class="input-field" id="genCharacter" placeholder="Лис, кот, дракон, единорог... (необязательно)">
         </div>
       </div>
       <!-- Step 6 -->
@@ -3234,7 +3195,7 @@ textarea.input-field { resize: vertical; min-height: 100px; }
         <div class="generator-step-label">Шаг 6 из 7</div>
         <h2>Имя друга или питомца</h2>
         <div class="form-group">
-          <input type="text" class="input-field" placeholder="Кого можно включить в историю? (необязательно)">
+          <input type="text" class="input-field" id="genFriend" placeholder="Кого можно включить в историю? (необязательно)">
         </div>
       </div>
       <!-- Step 7 -->
@@ -3242,7 +3203,7 @@ textarea.input-field { resize: vertical; min-height: 100px; }
         <div class="generator-step-label">Шаг 7 из 7</div>
         <h2>Дополнительные пожелания</h2>
         <div class="form-group">
-          <textarea class="input-field" placeholder="Любые детали, которые важны для вас и вашего ребёнка..."></textarea>
+          <textarea class="input-field" id="genWishes" placeholder="Любые детали, которые важны для вас и вашего ребёнка..."></textarea>
         </div>
       </div>
       <!-- Waiting -->
@@ -3264,16 +3225,18 @@ textarea.input-field { resize: vertical; min-height: 100px; }
       </div>
       <!-- Result -->
       <div class="gen-step" data-step="result">
-        <div class="gen-result">
-          <div class="gen-result-preview">
-            <h3>Лис по имени Маша и тайна ночного леса</h3>
-            <p>Жила-была девочка Маша. Она очень любила рисовать цветных бабочек и собирать камешки у ручья. Но каждый вечер, когда солнце пряталось за верхушки деревьев, Маша чувствовала, как внутри неё просыпается что-то тревожное — маленький холодок, который заставлял крепко-крепко сжимать одеяло.</p>
-            <p>Однажды, когда тени стали длинными, а мама ещё не пришла пожелать спокойной ночи, Маша увидела на подоконнике крохотную золотую искру. Искра мерцала мягко, словно дышала, и от неё шло тепло — такое же, как от маминых рук.</p>
-            <p class="blurred">«Не бойся, — прошептала искра. — Я покажу тебе, что прячется в темноте. Там живут не страшные тени, а лесные огоньки — такие же, как я». Маша протянула ладошку, и искра опустилась на неё, как пёрышко. В ту же секунду комната наполнилась мягким золотистым светом, и стены раздвинулись, открывая тропинку в волшебный ночной лес...</p>
+        <div class="gen-result" id="genResult">
+          <div class="gen-result-preview" id="genResultPreview">
+            <h3 id="genResultTitle">Лис по имени Маша и тайна ночного леса</h3>
+            <div id="genResultText">
+              <p>Жила-была девочка Маша. Она очень любила рисовать цветных бабочек и собирать камешки у ручья. Но каждый вечер, когда солнце пряталось за верхушки деревьев, Маша чувствовала, как внутри неё просыпается что-то тревожное — маленький холодок, который заставлял крепко-крепко сжимать одеяло.</p>
+              <p>Однажды, когда тени стали длинными, а мама ещё не пришла пожелать спокойной ночи, Маша увидела на подоконнике крохотную золотую искру. Искра мерцала мягко, словно дышала, и от неё шло тепло — такое же, как от маминых рук.</p>
+              <p class="blurred">«Не бойся, — прошептала искра. — Я покажу тебе, что прячется в темноте. Там живут не страшные тени, а лесные огоньки — такие же, как я». Маша протянула ладошку, и искра опустилась на неё, как пёрышко. В ту же секунду комната наполнилась мягким золотистым светом, и стены раздвинулись, открывая тропинку в волшебный ночной лес...</p>
+            </div>
           </div>
-          <div class="gen-result-cta">
+          <div class="gen-result-cta" id="genResultCta">
             <p>Это начало истории. Полная сказка содержит развитие сюжета, кульминацию и мягкое терапевтическое завершение.</p>
-            <button class="btn-primary">Получить полную сказку — 490 ₽</button>
+            <button class="btn-primary" id="genPurchaseBtn" onclick="purchaseStory()">Получить полную сказку — 490 ₽</button>
           </div>
         </div>
       </div>
@@ -3284,45 +3247,6 @@ textarea.input-field { resize: vertical; min-height: 100px; }
       </div>
     </div>
   </div>
-  <footer class="site-footer">
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-brand">
-          <div class="logo">ANIM<span class="logo-i">I</span></div>
-          <p style="margin-top:12px;">Оживляем сказки. Бережём душу.<br>Художественная студия терапевтических историй для детей.</p>
-        </div>
-        <div class="footer-col">
-          <h4>Продукты</h4>
-          <a href="#" onclick="navigateTo('books'); return false;">Книги</a>
-          <a href="#" onclick="navigateTo('cartoons'); return false;">Мультфильмы</a>
-          <a href="#" onclick="navigateTo('generator'); return false;">Генератор сказок</a>
-          <a href="#" onclick="navigateTo('personal'); return false;">Персональная история</a>
-        </div>
-        <div class="footer-col">
-          <h4>Информация</h4>
-          <a href="#" onclick="navigateTo('about'); return false;">О нас</a>
-          <a href="#" onclick="navigateTo('about'); return false;">О методе</a>
-          <a href="#" onclick="navigateTo('contacts'); return false;">Контакты</a>
-          <a href="#" onclick="navigateTo('privacy'); return false;">Политика конфиденциальности</a>
-          <a href="#" onclick="navigateTo('offer'); return false;">Оферта</a>
-        </div>
-        <div class="footer-col">
-          <h4>Контакты</h4>
-          <a href="mailto:hello@animistories.com">hello@animistories.com</a>
-          <a href="#">Telegram: @animi_stories</a>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <span>© 2026 Animi Stories. Все права защищены.</span>
-        <div class="footer-socials">
-          <a href="#" title="Instagram @alyona_frost">IG</a>
-          <a href="#" title="Telegram: Теория расстроенных струн">TG</a>
-          <a href="#" title="YouTube: Alyona Frost">YT</a>
-          <a href="#" title="TikTok">TT</a>
-        </div>
-      </div>
-    </div>
-  </footer>
 </main>
 
 <!-- ═══════════════════════════════
@@ -3366,7 +3290,7 @@ textarea.input-field { resize: vertical; min-height: 100px; }
           <div class="price">8 000 ₽/мин</div>
           <p>Полностью уникальный сценарий и продакшен. Работа с психологом.</p>
           <p>1 минута = 3 дня работы.</p>
-          <button class="btn-primary">Оформить заказ</button>
+          <button class="btn-primary" onclick="scrollToPersonalForm('personal_cartoon')">Оформить заказ</button>
         </div>
         <div class="personal-format-card reveal reveal-delay-2">
           <div class="format-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent-gold)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></div>
@@ -3374,7 +3298,7 @@ textarea.input-field { resize: vertical; min-height: 100px; }
           <div class="price">12 000 ₽</div>
           <p>Уникальный сюжет, кастомные иллюстрации. 24 страницы.</p>
           <p>Срок: ~1 неделя.</p>
-          <button class="btn-primary">Оформить заказ</button>
+          <button class="btn-primary" onclick="scrollToPersonalForm('personal_book')">Оформить заказ</button>
         </div>
         <div class="personal-format-card reveal reveal-delay-3">
           <div class="format-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent-gold)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3z"/><path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></div>
@@ -3382,7 +3306,7 @@ textarea.input-field { resize: vertical; min-height: 100px; }
           <div class="price">1 900 ₽</div>
           <p>Уникальный терапевтический сценарий. Озвучка профессиональным диктором.</p>
           <p>Срок: 3–5 дней.</p>
-          <button class="btn-primary">Оформить заказ</button>
+          <button class="btn-primary" onclick="scrollToPersonalForm('personal_audio')">Оформить заказ</button>
         </div>
       </div>
     </section>
@@ -3504,70 +3428,34 @@ textarea.input-field { resize: vertical; min-height: 100px; }
         <div class="section-label">Заказ</div>
         <h2 class="section-title mb-xl">Оформить заказ</h2>
       </div>
-      <div class="order-form reveal">
+      <div class="order-form reveal" id="personalOrderForm">
         <h3>Свяжемся с вами в течение 24 часов</h3>
         <div class="form-group">
           <label>Ваше имя</label>
-          <input type="text" class="input-field" placeholder="Как к вам обращаться?">
+          <input type="text" class="input-field" id="personalName" placeholder="Как к вам обращаться?">
         </div>
         <div class="form-group">
           <label>Телефон или Telegram</label>
-          <input type="text" class="input-field" placeholder="+7... или @username">
+          <input type="text" class="input-field" id="personalPhone" placeholder="+7... или @username">
         </div>
         <div class="form-group">
           <label>Email</label>
-          <input type="email" class="input-field" placeholder="email@example.com">
+          <input type="email" class="input-field" id="personalEmail" placeholder="email@example.com">
         </div>
         <div class="form-group">
           <label>Формат</label>
-          <select class="input-field">
-            <option>Персональный мультфильм — от 8 000 ₽/мин</option>
-            <option>Персональная книга — 12 000 ₽</option>
-            <option>Персональная аудиосказка — 1 900 ₽</option>
+          <select class="input-field" id="personalFormat">
+            <option value="personal_cartoon">Персональный мультфильм — от 8 000 ₽/мин</option>
+            <option value="personal_book">Персональная книга — 12 000 ₽</option>
+            <option value="personal_audio">Персональная аудиосказка — 1 900 ₽</option>
           </select>
         </div>
-        <button class="btn-primary" style="width: 100%; justify-content: center; margin-top: 8px;">Оформить заказ</button>
+        <button class="btn-primary" style="width: 100%; justify-content: center; margin-top: 8px;" onclick="submitPersonalOrder()">Оформить заказ</button>
       </div>
     </section>
   </div>
   <footer class="site-footer">
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-brand">
-          <div class="logo">ANIM<span class="logo-i">I</span></div>
-          <p style="margin-top:12px;">Оживляем сказки. Бережём душу.<br>Художественная студия терапевтических историй для детей.</p>
-        </div>
-        <div class="footer-col">
-          <h4>Продукты</h4>
-          <a href="#" onclick="navigateTo('books'); return false;">Книги</a>
-          <a href="#" onclick="navigateTo('cartoons'); return false;">Мультфильмы</a>
-          <a href="#" onclick="navigateTo('generator'); return false;">Генератор сказок</a>
-          <a href="#" onclick="navigateTo('personal'); return false;">Персональная история</a>
-        </div>
-        <div class="footer-col">
-          <h4>Информация</h4>
-          <a href="#" onclick="navigateTo('about'); return false;">О нас</a>
-          <a href="#" onclick="navigateTo('about'); return false;">О методе</a>
-          <a href="#" onclick="navigateTo('contacts'); return false;">Контакты</a>
-          <a href="#" onclick="navigateTo('privacy'); return false;">Политика конфиденциальности</a>
-          <a href="#" onclick="navigateTo('offer'); return false;">Оферта</a>
-        </div>
-        <div class="footer-col">
-          <h4>Контакты</h4>
-          <a href="mailto:hello@animistories.com">hello@animistories.com</a>
-          <a href="#">Telegram: @animi_stories</a>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <span>© 2026 Animi Stories. Все права защищены.</span>
-        <div class="footer-socials">
-          <a href="#" title="Instagram @alyona_frost">IG</a>
-          <a href="#" title="Telegram: Теория расстроенных струн">TG</a>
-          <a href="#" title="YouTube: Alyona Frost">YT</a>
-          <a href="#" title="TikTok">TT</a>
-        </div>
-      </div>
-    </div>
+    <div class="container"><div class="footer-bottom"><span>© 2026 Animi Stories</span><div class="footer-socials"><a href="#">IG</a><a href="#">TG</a><a href="#">YT</a><a href="#">TT</a></div></div></div>
   </footer>
 </main>
 
@@ -3636,43 +3524,7 @@ textarea.input-field { resize: vertical; min-height: 100px; }
     </div>
   </div>
   <footer class="site-footer">
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-brand">
-          <div class="logo">ANIM<span class="logo-i">I</span></div>
-          <p style="margin-top:12px;">Оживляем сказки. Бережём душу.<br>Художественная студия терапевтических историй для детей.</p>
-        </div>
-        <div class="footer-col">
-          <h4>Продукты</h4>
-          <a href="#" onclick="navigateTo('books'); return false;">Книги</a>
-          <a href="#" onclick="navigateTo('cartoons'); return false;">Мультфильмы</a>
-          <a href="#" onclick="navigateTo('generator'); return false;">Генератор сказок</a>
-          <a href="#" onclick="navigateTo('personal'); return false;">Персональная история</a>
-        </div>
-        <div class="footer-col">
-          <h4>Информация</h4>
-          <a href="#" onclick="navigateTo('about'); return false;">О нас</a>
-          <a href="#" onclick="navigateTo('about'); return false;">О методе</a>
-          <a href="#" onclick="navigateTo('contacts'); return false;">Контакты</a>
-          <a href="#" onclick="navigateTo('privacy'); return false;">Политика конфиденциальности</a>
-          <a href="#" onclick="navigateTo('offer'); return false;">Оферта</a>
-        </div>
-        <div class="footer-col">
-          <h4>Контакты</h4>
-          <a href="mailto:hello@animistories.com">hello@animistories.com</a>
-          <a href="#">Telegram: @animi_stories</a>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <span>© 2026 Animi Stories. Все права защищены.</span>
-        <div class="footer-socials">
-          <a href="#" title="Instagram @alyona_frost">IG</a>
-          <a href="#" title="Telegram: Теория расстроенных струн">TG</a>
-          <a href="#" title="YouTube: Alyona Frost">YT</a>
-          <a href="#" title="TikTok">TT</a>
-        </div>
-      </div>
-    </div>
+    <div class="container"><div class="footer-bottom"><span>© 2026 Animi Stories</span><div class="footer-socials"><a href="#">IG</a><a href="#">TG</a><a href="#">YT</a><a href="#">TT</a></div></div></div>
   </footer>
 </main>
 
@@ -3700,19 +3552,19 @@ textarea.input-field { resize: vertical; min-height: 100px; }
         <a href="#" style="font-size: 15px;">@animi_stories</a>
       </div>
     </div>
-    <div class="card reveal" style="padding: 32px; margin-bottom: var(--spacing-2xl);">
+    <div class="card reveal" id="contactForm" style="padding: 32px; margin-bottom: var(--spacing-2xl);">
       <h3 style="color: var(--color-accent-gold); margin-bottom: 20px; text-align: center;">Написать нам</h3>
       <div class="form-group">
         <label>Ваше имя</label>
-        <input type="text" class="input-field" placeholder="Как к вам обращаться?">
+        <input type="text" class="input-field" id="contactName" placeholder="Как к вам обращаться?">
       </div>
       <div class="form-group">
         <label>Email</label>
-        <input type="email" class="input-field" placeholder="email@example.com">
+        <input type="email" class="input-field" id="contactEmail" placeholder="email@example.com">
       </div>
       <div class="form-group">
         <label>Тема</label>
-        <select class="input-field">
+        <select class="input-field" id="contactSubject">
           <option>Вопрос о продукте</option>
           <option>Статус заказа</option>
           <option>Сотрудничество</option>
@@ -3721,53 +3573,14 @@ textarea.input-field { resize: vertical; min-height: 100px; }
       </div>
       <div class="form-group">
         <label>Сообщение</label>
-        <textarea class="input-field" placeholder="Расскажите, чем мы можем помочь..."></textarea>
+        <textarea class="input-field" id="contactMessage" placeholder="Расскажите, чем мы можем помочь..."></textarea>
       </div>
-      <button class="btn-primary" style="width: 100%; justify-content: center;">Отправить</button>
+      <button class="btn-primary" style="width: 100%; justify-content: center;" onclick="submitContactForm()">Отправить</button>
     </div>
     <div class="section-center reveal" style="margin-bottom: var(--spacing-2xl);">
       <p style="color: var(--color-text-dim); font-size: 13px;">Мы отвечаем в течение 24 часов в рабочие дни.</p>
     </div>
   </div>
-  <footer class="site-footer">
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-brand">
-          <div class="logo">ANIM<span class="logo-i">I</span></div>
-          <p style="margin-top:12px;">Оживляем сказки. Бережём душу.<br>Художественная студия терапевтических историй для детей.</p>
-        </div>
-        <div class="footer-col">
-          <h4>Продукты</h4>
-          <a href="#" onclick="navigateTo('books'); return false;">Книги</a>
-          <a href="#" onclick="navigateTo('cartoons'); return false;">Мультфильмы</a>
-          <a href="#" onclick="navigateTo('generator'); return false;">Генератор сказок</a>
-          <a href="#" onclick="navigateTo('personal'); return false;">Персональная история</a>
-        </div>
-        <div class="footer-col">
-          <h4>Информация</h4>
-          <a href="#" onclick="navigateTo('about'); return false;">О нас</a>
-          <a href="#" onclick="navigateTo('about'); return false;">О методе</a>
-          <a href="#" onclick="navigateTo('contacts'); return false;">Контакты</a>
-          <a href="#" onclick="navigateTo('privacy'); return false;">Политика конфиденциальности</a>
-          <a href="#" onclick="navigateTo('offer'); return false;">Оферта</a>
-        </div>
-        <div class="footer-col">
-          <h4>Контакты</h4>
-          <a href="mailto:hello@animistories.com">hello@animistories.com</a>
-          <a href="#">Telegram: @animi_stories</a>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <span>© 2026 Animi Stories. Все права защищены.</span>
-        <div class="footer-socials">
-          <a href="#" title="Instagram @alyona_frost">IG</a>
-          <a href="#" title="Telegram: Теория расстроенных струн">TG</a>
-          <a href="#" title="YouTube: Alyona Frost">YT</a>
-          <a href="#" title="TikTok">TT</a>
-        </div>
-      </div>
-    </div>
-  </footer>
 </main>
 
 <!-- ═══════════════════════════════
@@ -3805,45 +3618,6 @@ textarea.input-field { resize: vertical; min-height: 100px; }
       </div>
     </div>
   </div>
-  <footer class="site-footer">
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-brand">
-          <div class="logo">ANIM<span class="logo-i">I</span></div>
-          <p style="margin-top:12px;">Оживляем сказки. Бережём душу.<br>Художественная студия терапевтических историй для детей.</p>
-        </div>
-        <div class="footer-col">
-          <h4>Продукты</h4>
-          <a href="#" onclick="navigateTo('books'); return false;">Книги</a>
-          <a href="#" onclick="navigateTo('cartoons'); return false;">Мультфильмы</a>
-          <a href="#" onclick="navigateTo('generator'); return false;">Генератор сказок</a>
-          <a href="#" onclick="navigateTo('personal'); return false;">Персональная история</a>
-        </div>
-        <div class="footer-col">
-          <h4>Информация</h4>
-          <a href="#" onclick="navigateTo('about'); return false;">О нас</a>
-          <a href="#" onclick="navigateTo('about'); return false;">О методе</a>
-          <a href="#" onclick="navigateTo('contacts'); return false;">Контакты</a>
-          <a href="#" onclick="navigateTo('privacy'); return false;">Политика конфиденциальности</a>
-          <a href="#" onclick="navigateTo('offer'); return false;">Оферта</a>
-        </div>
-        <div class="footer-col">
-          <h4>Контакты</h4>
-          <a href="mailto:hello@animistories.com">hello@animistories.com</a>
-          <a href="#">Telegram: @animi_stories</a>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <span>© 2026 Animi Stories. Все права защищены.</span>
-        <div class="footer-socials">
-          <a href="#" title="Instagram @alyona_frost">IG</a>
-          <a href="#" title="Telegram: Теория расстроенных струн">TG</a>
-          <a href="#" title="YouTube: Alyona Frost">YT</a>
-          <a href="#" title="TikTok">TT</a>
-        </div>
-      </div>
-    </div>
-  </footer>
 </main>
 
 <!-- ═══════════════════════════════
@@ -3881,45 +3655,6 @@ textarea.input-field { resize: vertical; min-height: 100px; }
       </div>
     </div>
   </div>
-  <footer class="site-footer">
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-brand">
-          <div class="logo">ANIM<span class="logo-i">I</span></div>
-          <p style="margin-top:12px;">Оживляем сказки. Бережём душу.<br>Художественная студия терапевтических историй для детей.</p>
-        </div>
-        <div class="footer-col">
-          <h4>Продукты</h4>
-          <a href="#" onclick="navigateTo('books'); return false;">Книги</a>
-          <a href="#" onclick="navigateTo('cartoons'); return false;">Мультфильмы</a>
-          <a href="#" onclick="navigateTo('generator'); return false;">Генератор сказок</a>
-          <a href="#" onclick="navigateTo('personal'); return false;">Персональная история</a>
-        </div>
-        <div class="footer-col">
-          <h4>Информация</h4>
-          <a href="#" onclick="navigateTo('about'); return false;">О нас</a>
-          <a href="#" onclick="navigateTo('about'); return false;">О методе</a>
-          <a href="#" onclick="navigateTo('contacts'); return false;">Контакты</a>
-          <a href="#" onclick="navigateTo('privacy'); return false;">Политика конфиденциальности</a>
-          <a href="#" onclick="navigateTo('offer'); return false;">Оферта</a>
-        </div>
-        <div class="footer-col">
-          <h4>Контакты</h4>
-          <a href="mailto:hello@animistories.com">hello@animistories.com</a>
-          <a href="#">Telegram: @animi_stories</a>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <span>© 2026 Animi Stories. Все права защищены.</span>
-        <div class="footer-socials">
-          <a href="#" title="Instagram @alyona_frost">IG</a>
-          <a href="#" title="Telegram: Теория расстроенных струн">TG</a>
-          <a href="#" title="YouTube: Alyona Frost">YT</a>
-          <a href="#" title="TikTok">TT</a>
-        </div>
-      </div>
-    </div>
-  </footer>
 </main>
 
 <!-- Back to top -->
@@ -4007,9 +3742,246 @@ function toggleFaq(btn) {
   if (!wasOpen) item.classList.add('open');
 }
 
+// ─── API Helper ───
+async function submitForm(url, data) {
+  try {
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    const result = await res.json();
+    if (!res.ok) throw new Error(result.error || 'Ошибка');
+    return result;
+  } catch (err) {
+    alert('Произошла ошибка: ' + err.message);
+    throw err;
+  }
+}
+
+// ─── Order Modal ───
+function showOrderModal({ type, product_title, format, total, child_name, child_gender }) {
+  return new Promise((resolve, reject) => {
+    // Remove existing modal
+    const existing = document.getElementById('orderModal');
+    if (existing) existing.remove();
+
+    const overlay = document.createElement('div');
+    overlay.id = 'orderModal';
+    overlay.style.cssText = 'position:fixed;inset:0;z-index:10000;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);animation:pageFadeIn 300ms ease;';
+
+    overlay.innerHTML = `
+      <div style="background:var(--color-bg-surface);border:0.5px solid var(--color-border);border-radius:var(--radius-xl);padding:36px 28px;max-width:440px;width:90%;position:relative;max-height:90vh;overflow-y:auto;">
+        <button onclick="document.getElementById('orderModal').remove()" style="position:absolute;top:16px;right:16px;background:none;border:none;color:var(--color-text-dim);font-size:20px;cursor:pointer;line-height:1;">&times;</button>
+        <h3 style="font-family:var(--font-heading);font-size:1.3rem;color:var(--color-accent-gold);margin-bottom:8px;text-align:center;">Оформление заказа</h3>
+        <p style="font-size:13px;color:var(--color-text-dim);text-align:center;margin-bottom:24px;">${product_title || ''}${format ? ' · ' + format : ''}${total ? ' · ' + total + ' ₽' : ''}</p>
+        <div class="form-group">
+          <label style="display:block;font-size:12px;color:var(--color-text-dim);margin-bottom:6px;">Ваше имя *</label>
+          <input type="text" class="input-field" id="modalCustomerName" placeholder="Как к вам обращаться?">
+        </div>
+        <div class="form-group">
+          <label style="display:block;font-size:12px;color:var(--color-text-dim);margin-bottom:6px;">Телефон *</label>
+          <input type="text" class="input-field" id="modalCustomerPhone" placeholder="+7...">
+        </div>
+        <div class="form-group">
+          <label style="display:block;font-size:12px;color:var(--color-text-dim);margin-bottom:6px;">Email *</label>
+          <input type="email" class="input-field" id="modalCustomerEmail" placeholder="email@example.com">
+        </div>
+        <button class="btn-primary" id="modalSubmitBtn" style="width:100%;justify-content:center;padding:14px;margin-top:8px;">Подтвердить заказ</button>
+      </div>
+    `;
+
+    document.body.appendChild(overlay);
+
+    // Close on overlay click
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) {
+        overlay.remove();
+        reject(new Error('cancelled'));
+      }
+    });
+
+    // Submit
+    document.getElementById('modalSubmitBtn').addEventListener('click', async () => {
+      const customer_name = document.getElementById('modalCustomerName').value.trim();
+      const customer_phone = document.getElementById('modalCustomerPhone').value.trim();
+      const customer_email = document.getElementById('modalCustomerEmail').value.trim();
+
+      if (!customer_name || !customer_phone || !customer_email) {
+        alert('Пожалуйста, заполните все поля');
+        return;
+      }
+
+      const btn = document.getElementById('modalSubmitBtn');
+      btn.textContent = 'Отправляем...';
+      btn.disabled = true;
+
+      try {
+        const result = await submitForm('/api/orders', {
+          type,
+          product_title,
+          format,
+          total,
+          customer_name,
+          customer_phone,
+          customer_email,
+          child_name: child_name || null,
+          child_gender: child_gender || null,
+        });
+
+        overlay.querySelector('div').innerHTML = `
+          <div style="text-align:center;padding:20px 0;">
+            <div style="width:56px;height:56px;margin:0 auto 20px;border-radius:50%;background:rgba(22,122,132,0.15);display:flex;align-items:center;justify-content:center;font-size:24px;color:var(--color-accent-teal);">&#10003;</div>
+            <h3 style="font-family:var(--font-heading);font-size:1.3rem;margin-bottom:12px;">Заказ оформлен!</h3>
+            <p style="color:var(--color-text-muted);font-size:14px;margin-bottom:8px;">Номер заказа: <strong style="color:var(--color-accent-gold);">${result.order_number}</strong></p>
+            <p style="color:var(--color-text-dim);font-size:13px;margin-bottom:24px;">Мы свяжемся с вами в ближайшее время для подтверждения деталей.</p>
+            <button class="btn-primary" onclick="document.getElementById('orderModal').remove()" style="padding:12px 32px;">Закрыть</button>
+          </div>
+        `;
+        resolve(result);
+      } catch (err) {
+        btn.textContent = 'Подтвердить заказ';
+        btn.disabled = false;
+      }
+    });
+  });
+}
+
+// ─── Book Order ───
+function orderBook() {
+  const child_name = document.getElementById('bookChildName').value.trim();
+  const genderToggle = document.getElementById('bookGenderToggle');
+  const activeGender = genderToggle.querySelector('button.active');
+  const child_gender = activeGender ? activeGender.textContent.trim() : '';
+  const activeFormat = document.querySelector('#bookFormatOptions .format-option.active');
+  const pages = activeFormat ? activeFormat.dataset.pages : '24';
+  const price = activeFormat ? activeFormat.dataset.price : '4900';
+  const product_title = document.querySelector('#page-book-detail .detail-info h1').textContent.trim();
+
+  showOrderModal({
+    type: 'book',
+    product_title,
+    format: pages + ' стр.',
+    total: price,
+    child_name,
+    child_gender,
+  });
+}
+
+// ─── Cartoon Order ───
+function orderCartoon() {
+  const child_name = document.getElementById('cartoonChildName').value.trim();
+  const genderToggle = document.getElementById('cartoonGenderToggle');
+  const activeGender = genderToggle.querySelector('button.active');
+  const child_gender = activeGender ? activeGender.textContent.trim() : '';
+  const product_title = document.querySelector('#page-cartoon-detail .detail-info h1').textContent.trim();
+
+  showOrderModal({
+    type: 'cartoon',
+    product_title,
+    format: 'Мультфильм',
+    total: '3900',
+    child_name,
+    child_gender,
+  });
+}
+
+// ─── Personal Story Order ───
+function scrollToPersonalForm(formatValue) {
+  const sel = document.getElementById('personalFormat');
+  if (sel) {
+    for (const opt of sel.options) {
+      if (opt.value === formatValue) {
+        sel.value = formatValue;
+        break;
+      }
+    }
+  }
+  const form = document.getElementById('personalOrderForm');
+  if (form) form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+async function submitPersonalOrder() {
+  const name = document.getElementById('personalName').value.trim();
+  const phone = document.getElementById('personalPhone').value.trim();
+  const email = document.getElementById('personalEmail').value.trim();
+  const formatEl = document.getElementById('personalFormat');
+  const type = formatEl.value;
+  const formatText = formatEl.options[formatEl.selectedIndex].text;
+
+  if (!name || !email) {
+    alert('Пожалуйста, укажите имя и email');
+    return;
+  }
+
+  const priceMap = { personal_cartoon: '8000', personal_book: '12000', personal_audio: '1900' };
+  const btn = document.querySelector('#personalOrderForm .btn-primary');
+  btn.textContent = 'Отправляем...';
+  btn.disabled = true;
+
+  try {
+    const result = await submitForm('/api/orders', {
+      type,
+      customer_name: name,
+      customer_phone: phone,
+      customer_email: email,
+      product_title: formatText,
+      format: type,
+      total: priceMap[type] || null,
+    });
+
+    const form = document.getElementById('personalOrderForm');
+    form.innerHTML = `
+      <div style="text-align:center;padding:20px 0;">
+        <div style="width:56px;height:56px;margin:0 auto 20px;border-radius:50%;background:rgba(22,122,132,0.15);display:flex;align-items:center;justify-content:center;font-size:24px;color:var(--color-accent-teal);">&#10003;</div>
+        <h3 style="font-family:var(--font-heading);font-size:1.3rem;margin-bottom:12px;">Заказ оформлен!</h3>
+        <p style="color:var(--color-text-muted);font-size:14px;margin-bottom:8px;">Номер заказа: <strong style="color:var(--color-accent-gold);">${result.order_number}</strong></p>
+        <p style="color:var(--color-text-dim);font-size:13px;">Мы свяжемся с вами в течение 24 часов для обсуждения деталей.</p>
+      </div>
+    `;
+  } catch (err) {
+    btn.textContent = 'Оформить заказ';
+    btn.disabled = false;
+  }
+}
+
+// ─── Contact Form ───
+async function submitContactForm() {
+  const name = document.getElementById('contactName').value.trim();
+  const email = document.getElementById('contactEmail').value.trim();
+  const subject = document.getElementById('contactSubject').value;
+  const message = document.getElementById('contactMessage').value.trim();
+
+  if (!name || !email || !message) {
+    alert('Пожалуйста, заполните имя, email и сообщение');
+    return;
+  }
+
+  const btn = document.querySelector('#contactForm .btn-primary');
+  btn.textContent = 'Отправляем...';
+  btn.disabled = true;
+
+  try {
+    await submitForm('/api/contacts', { name, email, subject, message });
+
+    const form = document.getElementById('contactForm');
+    form.innerHTML = `
+      <div style="text-align:center;padding:20px 0;">
+        <div style="width:56px;height:56px;margin:0 auto 20px;border-radius:50%;background:rgba(22,122,132,0.15);display:flex;align-items:center;justify-content:center;font-size:24px;color:var(--color-accent-teal);">&#10003;</div>
+        <h3 style="font-family:var(--font-heading);font-size:1.3rem;margin-bottom:12px;">Сообщение отправлено!</h3>
+        <p style="color:var(--color-text-dim);font-size:13px;">Мы ответим в течение 24 часов в рабочие дни.</p>
+      </div>
+    `;
+  } catch (err) {
+    btn.textContent = 'Отправить';
+    btn.disabled = false;
+  }
+}
+
 // ─── Generator Wizard ───
 let genStep = 1;
 const totalSteps = 7;
+let currentStoryId = null;
 
 function updateGenUI() {
   const card = document.getElementById('generatorCard');
@@ -4030,10 +4002,6 @@ function updateGenUI() {
     document.querySelector('.gen-step[data-step="waiting"]').classList.add('active');
     card.style.setProperty('--progress', '100%');
     nav.style.display = 'none';
-    setTimeout(() => {
-      genStep = totalSteps + 2;
-      updateGenUI();
-    }, 3000);
   } else {
     // Result
     document.querySelector('.gen-step[data-step="result"]').classList.add('active');
@@ -4042,13 +4010,136 @@ function updateGenUI() {
   }
 }
 
-function genNext() {
+function collectGenData() {
+  const child_name = document.getElementById('genName').value.trim();
+
+  // Gender from step 2
+  const genderStep = document.querySelector('.gen-step[data-step="2"]');
+  const selectedGender = genderStep.querySelector('.gen-option.selected');
+  const child_gender = selectedGender ? selectedGender.textContent.trim() : '';
+
+  const child_age = document.getElementById('genAge').value;
+
+  // Problem from step 4
+  const problemStep = document.querySelector('.gen-step[data-step="4"]');
+  const selectedProblem = problemStep.querySelector('.gen-option.selected');
+  const customProblem = document.getElementById('genCustomProblem').value.trim();
+  const problem = customProblem || (selectedProblem ? selectedProblem.textContent.trim() : '');
+
+  const favorite_character = document.getElementById('genCharacter').value.trim();
+  const friend_name = document.getElementById('genFriend').value.trim();
+  const wishes = document.getElementById('genWishes').value.trim();
+
+  return { child_name, child_gender, child_age, problem, favorite_character, friend_name, wishes };
+}
+
+async function genNext() {
   if (genStep < totalSteps) {
     genStep++;
+    updateGenUI();
   } else if (genStep === totalSteps) {
-    genStep = totalSteps + 1; // waiting
+    // Collect data and POST to API
+    const data = collectGenData();
+
+    if (!data.child_name) {
+      alert('Пожалуйста, укажите имя ребёнка');
+      genStep = 1;
+      updateGenUI();
+      return;
+    }
+    if (!data.child_gender) {
+      alert('Пожалуйста, выберите пол ребёнка');
+      genStep = 2;
+      updateGenUI();
+      return;
+    }
+    if (!data.child_age) {
+      alert('Пожалуйста, выберите возраст ребёнка');
+      genStep = 3;
+      updateGenUI();
+      return;
+    }
+    if (!data.problem) {
+      alert('Пожалуйста, укажите тему/проблему');
+      genStep = 4;
+      updateGenUI();
+      return;
+    }
+
+    // Show waiting state
+    genStep = totalSteps + 1;
+    updateGenUI();
+
+    try {
+      const result = await submitForm('/api/generate', data);
+
+      // Store story_id for purchase
+      currentStoryId = result.story_id;
+
+      // Populate result
+      document.getElementById('genResultTitle').textContent = result.story_title;
+      const paragraphs = result.story_preview.split('\n\n');
+      let html = '';
+      paragraphs.forEach((p, i) => {
+        if (i < 2) {
+          html += '<p>' + p + '</p>';
+        } else {
+          html += '<p class="blurred">' + p + '</p>';
+        }
+      });
+      // Add blurred teaser
+      html += '<p class="blurred">Продолжение истории доступно после покупки...</p>';
+      document.getElementById('genResultText').innerHTML = html;
+
+      // Show result
+      genStep = totalSteps + 2;
+      updateGenUI();
+    } catch (err) {
+      // Go back to last step on error
+      genStep = totalSteps;
+      updateGenUI();
+    }
   }
-  updateGenUI();
+}
+
+async function purchaseStory() {
+  if (!currentStoryId) {
+    alert('Ошибка: история не найдена');
+    return;
+  }
+
+  const btn = document.getElementById('genPurchaseBtn');
+  btn.textContent = 'Обрабатываем...';
+  btn.disabled = true;
+
+  try {
+    const result = await submitForm('/api/generate/purchase', { story_id: currentStoryId });
+
+    // Show full story
+    document.getElementById('genResultTitle').textContent = result.story_title;
+    const paragraphs = result.story_full.split('\n\n');
+    let html = '';
+    paragraphs.forEach(p => {
+      html += '<p>' + p + '</p>';
+    });
+    document.getElementById('genResultText').innerHTML = html;
+
+    // Replace CTA with download/success
+    document.getElementById('genResultCta').innerHTML = `
+      <div style="text-align:center;padding:16px 0;">
+        <div style="width:48px;height:48px;margin:0 auto 16px;border-radius:50%;background:rgba(22,122,132,0.15);display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--color-accent-teal);">&#10003;</div>
+        <p style="color:var(--color-accent-gold);font-family:var(--font-heading);font-size:1.1rem;margin-bottom:12px;">Полная сказка доступна!</p>
+        <p style="color:var(--color-text-dim);font-size:13px;margin-bottom:16px;">Вы можете скопировать текст или сохранить страницу.</p>
+        <button class="btn-secondary" onclick="navigateTo('home')">На главную</button>
+      </div>
+    `;
+
+    // Remove blur from preview
+    document.getElementById('genResultPreview').style.cssText += 'max-height:none;';
+  } catch (err) {
+    btn.textContent = 'Получить полную сказку — 490 ₽';
+    btn.disabled = false;
+  }
 }
 
 function genPrev() {
